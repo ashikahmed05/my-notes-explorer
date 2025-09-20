@@ -1,6 +1,9 @@
 ECE/1st Year/1st Sem/Chemistry/Notes/Polymer & Composite Materials_Notes.pdf
 ECE/1st Year/1st Sem/Chemistry Lab/B Tech 1-5 expt.pdf
 ECE/1st Year/1st Sem/Engineering Mechanics/syllabus-btech-new.pdf
+ECE/1st Year/1st Sem/Engineering Mechanics/Internal Assignments/EM Assignment 2.pdf
+ECE/1st Year/1st Sem/Engineering Mechanics/Internal Assignments/EM Assignment 3.pdf
+ECE/1st Year/1st Sem/Engineering Mechanics/Internal Assignments/EM Assignment 1.pdf
 ECE/1st Year/1st Sem/Mathematics - 1/Prof Lectures/2.Lecture  No.2, Linear Algebra, an introduction Page 1 to 7.pdf
 ECE/1st Year/1st Sem/Mathematics - 1/Prof Lectures/1.Lecture  No.1, Rank of Matrix, Determinantal approach 1 to 5.pdf
 ECE/1st Year/1st Sem/Mathematics - 1/Practice Papers/Assignmemt (UNIT-2 Infinite Series-2025).pdf
