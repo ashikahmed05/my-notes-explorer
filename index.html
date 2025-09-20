@@ -172,22 +172,20 @@
                 const fileStructure = {};
                 const userName = 'ashikahmed05';
                 const repoName = 'my-notes-explorer';
-                
-                // --- THIS IS THE UPDATED URL ---
-                // This URL format serves raw files directly for viewing.
                 const baseUrl = `https://raw.githubusercontent.com/${userName}/${repoName}/main/files/`;
                 
                 filePathsText.trim().split('\n').forEach(path => {
                     if (!path) return;
-                    // Properly encode each part of the path to handle special characters
-                    const encodedPath = path.split('/').map(part => encodeURIComponent(part)).join('/');
+                    const encodedPathForRawLink = path.split('/').map(part => encodeURIComponent(part)).join('/');
                     const pathParts = path.split('/');
                     let currentLevel = fileStructure;
                     
                     pathParts.forEach((part, index) => {
                         if (index === pathParts.length - 1) {
-                            // The new URL doesn't need '?raw=true'
-                            currentLevel[part] = `${baseUrl}${encodedPath}`;
+                            const rawFileUrl = `${baseUrl}${encodedPathForRawLink}`;
+                            // --- THIS IS THE CHANGE ---
+                            // Link to viewer.html and pass the raw file URL as a parameter
+                            currentLevel[part] = `viewer.html?file=${encodeURIComponent(rawFileUrl)}`;
                         } else {
                             if (!currentLevel[part]) {
                                 currentLevel[part] = {};

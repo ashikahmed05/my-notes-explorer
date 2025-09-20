@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>File Viewer</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            overflow: hidden;
+            background-color: #333; /* A dark background for the frame */
+        }
+        iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+    </style>
+</head>
+<body>
+    <iframe id="file-viewer-frame" title="File Content"></iframe>
+
+    <script>
+        // Get the file URL from the query parameter
+        const urlParams = new URLSearchParams(window.location.search);
+        const fileUrl = urlParams.get('file');
+
+        if (fileUrl) {
+            // Set the iframe's source to the file URL
+            document.getElementById('file-viewer-frame').src = fileUrl;
+        } else {
+            // Display an error if no file URL is provided
+            document.body.innerHTML = '<p style="color:white; text-align:center;">Error: No file specified.</p>';
+        }
+    </script>
+</body>
+</html>
