@@ -201,7 +201,7 @@
                                 currentLevel[part] = rawFileUrl;
                             } else if (['pdf', 'doc', 'docx', 'ppt', 'pptx'].includes(fileExtension)) {
                                 // For smaller documents, use Google Viewer
-                                const googleViewerUrl = `https://docs.google.com/gview?url=${encodeURIComponent(rawFileUrl)}&embedded=true`;
+                                const googleViewerUrl = `https://docs.google.com/viewerng/viewer?url=${encodeURIComponent(rawFileUrl)}`;
                                 currentLevel[part] = googleViewerUrl;
                             } else {
                                 // For images and others, use our own viewer.html
