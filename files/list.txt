@@ -1,23 +1,23 @@
-ECE/1st Year/1st Sem/Chemistry/Notes/Polymer & Composite Materials_Notes.pdf
-ECE/1st Year/1st Sem/Chemistry Lab/B Tech 1-5 expt.pdf
-ECE/1st Year/1st Sem/Engineering Mechanics/syllabus-btech-new.pdf
-ECE/1st Year/1st Sem/Engineering Mechanics/Internal Assignments/EM Assignment 2.pdf
-ECE/1st Year/1st Sem/Engineering Mechanics/Internal Assignments/EM Assignment 3.pdf
-ECE/1st Year/1st Sem/Engineering Mechanics/Internal Assignments/EM Assignment 1.pdf
-ECE/1st Year/1st Sem/Professional Core 1/Books/Electronic Devices and Circuit Theory (11th Edition) by Robert L. Boylestad, Louis Nashelsky (z-lib.org).pdf
-ECE/1st Year/1st Sem/Professional Core 1/Books/Solid State Electronic Devices Global Edition by Ben G. Streetman Sanjay Kumar Banerjee (z-lib.org).pdf
-ECE/1st Year/1st Sem/Mathematics - 1/Prof Lectures/2.Lecture  No.2, Linear Algebra, an introduction Page 1 to 7.pdf
-ECE/1st Year/1st Sem/Mathematics - 1/Prof Lectures/1.Lecture  No.1, Rank of Matrix, Determinantal approach 1 to 5.pdf
-ECE/1st Year/1st Sem/Mathematics - 1/Practice Papers/Assignmemt (UNIT-2 Infinite Series-2025).pdf
-ECE/1st Year/1st Sem/Mathematics - 1/Practice Papers/Assignment (UNIT-1 Linear Algebra-2025).pdf
-ECE/1st Year/1st Sem/Mathematics - 1/Tentative Lecture Plan - Mathematics-I.pdf
-ECE/1st Year/1st Sem/EESL/Lab EC/Lab 2.pdf
-ECE/1st Year/1st Sem/EESL/Lab EC/Lab 1.pdf
-ECE/1st Year/1st Sem/EESL/Lab EC/Lab 3.pdf
-ECE/1st Year/1st Sem/EESL/Lab EC/Lab 4.pdf
-ECE/1st Year/1st Sem/Workshop/WORKSHOPMANUAL.pdf
-ECE/1st Year/1st Sem/Workshop/SAFETY IN WORKSHOP.pdf
-ECE/1st Year/1st Sem/Workshop/INDEX SAMPLE.pdf
-ECE/1st Year/Drive Links.txt
-ECE/1st Year/Syllabus 1st and 2nd Sem.pdf
-ECE/B.Tech._ECE_Carricullum.pdf
+ECE/1st Year/1st Sem/Chemistry/Notes/Polymer & Composite Materials_Notes.pdf|1840979
+ECE/1st Year/1st Sem/Chemistry Lab/B Tech 1-5 expt.pdf|383738
+ECE/1st Year/1st Sem/Engineering Mechanics/syllabus-btech-new.pdf|1357444
+ECE/1st Year/1st Sem/Engineering Mechanics/Internal Assignments/EM Assignment 2.pdf|1161003
+ECE/1st Year/1st Sem/Engineering Mechanics/Internal Assignments/EM Assignment 3.pdf|1366342
+ECE/1st Year/1st Sem/Engineering Mechanics/Internal Assignments/EM Assignment 1.pdf|398208
+ECE/1st Year/1st Sem/Professional Core 1/Books/Electronic Devices and Circuit Theory (11th Edition) by Robert L. Boylestad, Louis Nashelsky (z-lib.org).pdf|27181515
+ECE/1st Year/1st Sem/Professional Core 1/Books/Solid State Electronic Devices Global Edition by Ben G. Streetman Sanjay Kumar Banerjee (z-lib.org).pdf|16073027
+ECE/1st Year/1st Sem/Mathematics - 1/Prof Lectures/2.Lecture  No.2, Linear Algebra, an introduction Page 1 to 7.pdf|5424206
+ECE/1st Year/1st Sem/Mathematics - 1/Prof Lectures/1.Lecture  No.1, Rank of Matrix, Determinantal approach 1 to 5.pdf|3570230
+ECE/1st Year/1st Sem/Mathematics - 1/Practice Papers/Assignmemt (UNIT-2 Infinite Series-2025).pdf|105261
+ECE/1st Year/1st Sem/Mathematics - 1/Practice Papers/Assignment (UNIT-1 Linear Algebra-2025).pdf|762674
+ECE/1st Year/1st Sem/Mathematics - 1/Tentative Lecture Plan - Mathematics-I.pdf|216759
+ECE/1st Year/1st Sem/EESL/Lab EC/Lab 2.pdf|620025
+ECE/1st Year/1st Sem/EESL/Lab EC/Lab 1.pdf|765507
+ECE/1st Year/1st Sem/EESL/Lab EC/Lab 3.pdf|1028488
+ECE/1st Year/1st Sem/EESL/Lab EC/Lab 4.pdf|418873
+ECE/1st Year/1st Sem/Workshop/WORKSHOPMANUAL.pdf|4395359
+ECE/1st Year/1st Sem/Workshop/SAFETY IN WORKSHOP.pdf|2458775
+ECE/1st Year/1st Sem/Workshop/INDEX SAMPLE.pdf|351008
+ECE/1st Year/Drive Links.txt|0
+ECE/1st Year/Syllabus 1st and 2nd Sem.pdf|451682
+ECE/B.Tech._ECE_Carricullum.pdf|871877
