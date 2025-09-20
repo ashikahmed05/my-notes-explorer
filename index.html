@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Academic Notes Hub</title>
+    <title>Academic Notes Hub (NITS)</title>
 
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=YOUR_ADSENSE_PUBLISHER_ID"
      crossorigin="anonymous"></script>
@@ -119,7 +119,7 @@
             <p id="loader">🔍 Loading file list...</p>
         </div>
     </div>
-    <script>
+<script>
         function createExplorerUI(container, structure) {
             const ul = document.createElement('ul');
             ul.className = 'explorer';
@@ -156,6 +156,7 @@
             }
             return ul;
         }
+
         async function buildFileExplorer() {
             const explorerContainer = document.getElementById('file-explorer');
             const listUrl = 'files/list.txt';
@@ -171,14 +172,22 @@
                 const fileStructure = {};
                 const userName = 'ashikahmed05';
                 const repoName = 'my-notes-explorer';
-                const baseUrl = `https://github.com/${userName}/${repoName}/blob/main/files/`;
+                
+                // --- THIS IS THE UPDATED URL ---
+                // This URL format serves raw files directly for viewing.
+                const baseUrl = `https://raw.githubusercontent.com/${userName}/${repoName}/main/files/`;
+                
                 filePathsText.trim().split('\n').forEach(path => {
                     if (!path) return;
+                    // Properly encode each part of the path to handle special characters
+                    const encodedPath = path.split('/').map(part => encodeURIComponent(part)).join('/');
                     const pathParts = path.split('/');
                     let currentLevel = fileStructure;
+                    
                     pathParts.forEach((part, index) => {
                         if (index === pathParts.length - 1) {
-                            currentLevel[part] = `${baseUrl}${encodeURIComponent(path)}?raw=true`;
+                            // The new URL doesn't need '?raw=true'
+                            currentLevel[part] = `${baseUrl}${encodedPath}`;
                         } else {
                             if (!currentLevel[part]) {
                                 currentLevel[part] = {};
@@ -187,6 +196,7 @@
                         }
                     });
                 });
+                
                 explorerContainer.innerHTML = '';
                 explorerContainer.appendChild(createExplorerUI(explorerContainer, fileStructure));
             } catch (error) {
