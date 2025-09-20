@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>File Explorer</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; font-size: 16px; margin: 20px; background-color: #f8f9fa; }
+        .explorer { list-style: none; padding-left: 0; }
+        .explorer li { padding: 4px 0 4px 20px; position: relative; }
+        .explorer .folder { cursor: pointer; font-weight: bold; }
+        .explorer .folder::before { content: '📁'; margin-left: -20px; margin-right: 6px; }
+        .explorer .file { color: #0056b3; text-decoration: none; }
+        .explorer .file:hover { text-decoration: underline; }
+        .explorer .file::before { content: '📄'; margin-left: -20px; margin-right: 6px; }
+        .explorer ul { display: none; /* Collapsed by default */ list-style: none; padding-left: 20px; }
+        .explorer .folder.open > ul { display: block; /* Expanded */ }
+        #loader { font-weight: bold; }
+    </style>
+</head>
+<body>
+
+    <h1>My Academic Notes</h1>
+    <div id="file-explorer">
+        <p id="loader">🔍 Loading files from repository...</p>
+    </div>
+
+    <script>
+        // --- CONFIGURE THIS SECTION ---
+        const USER_NAME = "ashikahmed05"; // Replace with your GitHub username
+        const REPO_NAME = "my-notes-explorer";    // Replace with your repository name
+        // --- END OF CONFIGURATION ---
+
+        // Function to render the explorer UI from a nested object
+        function createExplorerUI(container, structure) {
+            const ul = document.createElement('ul');
+            ul.className = 'explorer';
+            // Sort keys to have folders first, then files alphabetically
+            const sortedKeys = Object.keys(structure).sort((a, b) => {
+                const aIsFolder = typeof structure[a] === 'object';
+                const bIsFolder = typeof structure[b] === 'object';
+                if (aIsFolder && !bIsFolder) return -1;
+                if (!aIsFolder && bIsFolder) return 1;
+                return a.localeCompare(b);
+            });
+
+            for (const key of sortedKeys) {
+                const value = structure[key];
+                const li = document.createElement('li');
+
+                if (typeof value === 'object') { // It's a folder
+                    li.textContent = key;
+                    li.className = 'folder';
+                    li.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        li.classList.toggle('open');
+                    });
+                    const subExplorer = createExplorerUI(li, value);
+                    li.appendChild(subExplorer);
+                } else { // It's a file
+                    const a = document.createElement('a');
+                    a.textContent = key;
+                    a.href = value;
+                    a.className = 'file';
+                    a.target = '_blank';
+                    li.appendChild(a);
+                }
+                ul.appendChild(li);
+            }
+            return ul;
+        }
+
+        // Main function to fetch and build the file tree
+        async function buildFileExplorer() {
+            const apiUrl = `https://api.github.com/repos/${USER_NAME}/${REPO_NAME}/git/trees/main?recursive=true`;
+            const explorerContainer = document.getElementById('file-explorer');
+            
+            try {
+                const response = await fetch(apiUrl);
+                if (!response.ok) {
+                    throw new Error(`Failed to fetch repository data. Status: ${response.status}`);
+                }
+                const data = await response.json();
+
+                const fileStructure = {};
+                const rootPath = 'files/';
+
+                for (const item of data.tree) {
+                    if (item.path.startsWith(rootPath) && item.type === 'blob') { // 'blob' means file
+                        const pathParts = item.path.substring(rootPath.length).split('/');
+                        let currentLevel = fileStructure;
+
+                        for (let i = 0; i < pathParts.length; i++) {
+                            const part = pathParts[i];
+                            if (i === pathParts.length - 1) { // It's a file
+                                currentLevel[part] = `https://${USER_NAME}.github.io/${REPO_NAME}/${item.path}`;
+                            } else { // It's a directory
+                                if (!currentLevel[part]) {
+                                    currentLevel[part] = {};
+                                }
+                                currentLevel = currentLevel[part];
+                            }
+                        }
+                    }
+                }
+                
+                // Clear the loading message and render the explorer
+                explorerContainer.innerHTML = '';
+                explorerContainer.appendChild(createExplorerUI(explorerContainer, fileStructure));
+
+            } catch (error) {
+                explorerContainer.innerHTML = `<p style="color:red;">Error: Could not load file list. ${error.message}</p>`;
+                console.error(error);
+            }
+        }
+
+        // Run the function
+        buildFileExplorer();
+    </script>
+</body>
+</html>
