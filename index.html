@@ -150,6 +150,10 @@
                     a.href = value;
                     a.className = 'file';
                     a.target = '_blank';
+                    // If the link is a direct download link, add the download attribute
+                    if (value.startsWith('https://raw.githubusercontent.com')) {
+                        a.download = key;
+                    }
                     li.appendChild(a);
                 }
                 ul.appendChild(li);
@@ -174,8 +178,14 @@
                 const repoName = 'my-notes-explorer';
                 const baseUrl = `https://raw.githubusercontent.com/${userName}/${repoName}/main/files/`;
                 
-                filePathsText.trim().split('\n').forEach(path => {
-                    if (!path) return;
+                filePathsText.trim().split('\n').forEach(line => {
+                    if (!line) return;
+                    
+                    // --- NEW LOGIC: Split path and size ---
+                    const [path, sizeStr] = line.split('|');
+                    const sizeInBytes = parseInt(sizeStr, 10);
+                    const sizeInMB = sizeInBytes / (1024 * 1024);
+
                     const encodedPathForRawLink = path.split('/').map(part => encodeURIComponent(part)).join('/');
                     const pathParts = path.split('/');
                     let currentLevel = fileStructure;
@@ -185,13 +195,17 @@
                             const rawFileUrl = `${baseUrl}${encodedPathForRawLink}`;
                             const fileExtension = part.split('.').pop().toLowerCase();
                             
-                            // --- THIS IS THE NEW LOGIC ---
-                            // If it's a PDF or Office document, use Google Docs Viewer.
-                            if (['pdf', 'doc', 'docx', 'ppt', 'pptx'].includes(fileExtension)) {
-                                const googleViewerUrl = `https://docs.google.com/viewerng/viewer?url=${encodeURIComponent(rawFileUrl)}`;
+                            // --- NEW LOGIC: Check file size for PDFs ---
+                            const isPDF = fileExtension === 'pdf';
+                            if (isPDF && sizeInMB > 17) {
+                                // For large PDFs, create a direct raw link to force download
+                                currentLevel[part] = rawFileUrl;
+                            } else if (['pdf', 'doc', 'docx', 'ppt', 'pptx'].includes(fileExtension)) {
+                                // For smaller documents, use Google Viewer
+                                const googleViewerUrl = `https://docs.google.com/gview?url=${encodeURIComponent(rawFileUrl)}&embedded=true`;
                                 currentLevel[part] = googleViewerUrl;
                             } else {
-                                // For everything else (images, etc.), use our own viewer.html
+                                // For images and others, use our own viewer.html
                                 currentLevel[part] = `viewer.html?file=${encodeURIComponent(rawFileUrl)}`;
                             }
                         } else {
