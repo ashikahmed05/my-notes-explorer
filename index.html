@@ -122,10 +122,7 @@
         </div>
     </div>
 
-    <script>
-        // No configuration needed. This script fetches the 'list.json' file
-        // created by the GitHub Action.
-
+<script>
         function createExplorerUI(container, structure) {
             const ul = document.createElement('ul');
             ul.className = 'explorer';
@@ -168,10 +165,10 @@
 
         async function buildFileExplorer() {
             const explorerContainer = document.getElementById('file-explorer');
-            const listUrl = 'list.json'; 
+            // This line is now corrected to look for list.txt
+            const listUrl = 'files/list.txt'; 
 
             try {
-                // Fetch the local list.json, adding a timestamp to prevent caching issues.
                 const response = await fetch(`${listUrl}?v=${new Date().getTime()}`);
                 if (!response.ok) {
                     throw new Error(`Status: ${response.status}`);
@@ -183,18 +180,17 @@
                 }
 
                 const fileStructure = {};
-                // IMPORTANT: These details are for your specific repository.
                 const userName = 'ashikahmed05';
                 const repoName = 'my-notes-explorer';
                 const baseUrl = `https://github.com/${userName}/${repoName}/blob/main/files/`;
                 
                 filePathsText.trim().split('\n').forEach(path => {
+                    if (!path) return; // Skip empty lines
                     const pathParts = path.split('/');
                     let currentLevel = fileStructure;
                     pathParts.forEach((part, index) => {
                         if (index === pathParts.length - 1) {
-                            // Create a direct-download link using ?raw=true
-                            currentLevel[part] = `${baseUrl}${path}?raw=true`;
+                            currentLevel[part] = `${baseUrl}${encodeURIComponent(path)}?raw=true`;
                         } else {
                             if (!currentLevel[part]) {
                                 currentLevel[part] = {};
@@ -208,7 +204,7 @@
                 explorerContainer.appendChild(createExplorerUI(explorerContainer, fileStructure));
 
             } catch (error) {
-                explorerContainer.innerHTML = `<p style="color:red;"><strong>Error:</strong> Could not load file list. Please ensure you have pushed your files and the GitHub Action has completed successfully. (${error.message})</p>`;
+                explorerContainer.innerHTML = `<p style="color:red;"><strong>Error:</strong> Could not load file list. (${error.message})</p>`;
                 console.error(error);
             }
         }
