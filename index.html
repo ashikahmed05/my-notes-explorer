@@ -150,7 +150,7 @@
                     a.href = value;
                     a.className = 'file';
                     a.target = '_blank';
-                    // If the link is a direct download link, add the download attribute
+                    // If the link is a direct raw link, it's a forced download
                     if (value.startsWith('https://raw.githubusercontent.com')) {
                         a.download = key;
                     }
@@ -181,7 +181,7 @@
                 filePathsText.trim().split('\n').forEach(line => {
                     if (!line) return;
                     
-                    // --- NEW LOGIC: Split path and size ---
+                    // This line correctly splits the path from the size
                     const [path, sizeStr] = line.split('|');
                     const sizeInBytes = parseInt(sizeStr, 10);
                     const sizeInMB = sizeInBytes / (1024 * 1024);
@@ -195,7 +195,6 @@
                             const rawFileUrl = `${baseUrl}${encodedPathForRawLink}`;
                             const fileExtension = part.split('.').pop().toLowerCase();
                             
-                            // --- NEW LOGIC: Check file size for PDFs ---
                             const isPDF = fileExtension === 'pdf';
                             if (isPDF && sizeInMB > 17) {
                                 // For large PDFs, create a direct raw link to force download
