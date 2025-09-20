@@ -183,9 +183,17 @@
                     pathParts.forEach((part, index) => {
                         if (index === pathParts.length - 1) {
                             const rawFileUrl = `${baseUrl}${encodedPathForRawLink}`;
-                            // --- THIS IS THE CHANGE ---
-                            // Link to viewer.html and pass the raw file URL as a parameter
-                            currentLevel[part] = `viewer.html?file=${encodeURIComponent(rawFileUrl)}`;
+                            const fileExtension = part.split('.').pop().toLowerCase();
+                            
+                            // --- THIS IS THE NEW LOGIC ---
+                            // If it's a PDF or Office document, use Google Docs Viewer.
+                            if (['pdf', 'doc', 'docx', 'ppt', 'pptx'].includes(fileExtension)) {
+                                const googleViewerUrl = `https://docs.google.com/gview?url=${encodeURIComponent(rawFileUrl)}&embedded=true`;
+                                currentLevel[part] = googleViewerUrl;
+                            } else {
+                                // For everything else (images, etc.), use our own viewer.html
+                                currentLevel[part] = `viewer.html?file=${encodeURIComponent(rawFileUrl)}`;
+                            }
                         } else {
                             if (!currentLevel[part]) {
                                 currentLevel[part] = {};
@@ -202,6 +210,7 @@
                 console.error(error);
             }
         }
+
         buildFileExplorer();
     </script>
 </body>
