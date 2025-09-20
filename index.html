@@ -3,39 +3,133 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>File Explorer</title>
+    <title>Academic Notes Hub</title>
+
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=YOUR_ADSENSE_PUBLISHER_ID"
+     crossorigin="anonymous"></script>
+
     <style>
-        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; font-size: 16px; margin: 20px; background-color: #f8f9fa; }
-        .explorer { list-style: none; padding-left: 0; }
-        .explorer li { padding: 4px 0 4px 20px; position: relative; }
-        .explorer .folder { cursor: pointer; font-weight: bold; }
-        .explorer .folder::before { content: '📁'; margin-left: -20px; margin-right: 6px; }
-        .explorer .file { color: #0056b3; text-decoration: none; }
-        .explorer .file:hover { text-decoration: underline; }
-        .explorer .file::before { content: '📄'; margin-left: -20px; margin-right: 6px; }
-        .explorer ul { display: none; /* Collapsed by default */ list-style: none; padding-left: 20px; }
-        .explorer .folder.open > ul { display: block; /* Expanded */ }
-        #loader { font-weight: bold; }
+        /* --- Minimalistic & Responsive Design --- */
+        :root {
+            --bg-color: #ffffff;
+            --text-color: #212529;
+            --accent-color: #007bff;
+            --border-color: #dee2e6;
+            --loader-color: #6c757d;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            font-size: 16px;
+            line-height: 1.6;
+            margin: 0;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+        }
+
+        h1 {
+            font-size: 2rem;
+            color: var(--text-color);
+            margin: 0;
+        }
+
+        /* --- File Explorer Styles --- */
+        .explorer {
+            list-style: none;
+            padding-left: 0;
+        }
+        .explorer li {
+            padding: 5px 0 5px 25px;
+            position: relative;
+        }
+        .explorer .folder {
+            cursor: pointer;
+            font-weight: 600;
+        }
+        .explorer .folder::before {
+            content: '📁';
+            position: absolute;
+            left: 0;
+            font-size: 1.1em;
+        }
+        .explorer .file {
+            color: var(--accent-color);
+            text-decoration: none;
+            display: block;
+        }
+        .explorer .file:hover {
+            text-decoration: underline;
+        }
+        .explorer .file::before {
+            content: '📄';
+            position: absolute;
+            left: 0;
+            font-size: 1.1em;
+        }
+        .explorer ul {
+            display: none; /* Collapsed by default */
+            list-style: none;
+            padding-left: 20px;
+            border-left: 1px solid var(--border-color);
+            margin-left: 5px;
+        }
+        .explorer .folder.open > ul {
+            display: block; /* Expanded */
+        }
+        
+        #loader {
+            color: var(--loader-color);
+            font-style: italic;
+        }
+
+        /* --- Responsive Adjustments --- */
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+                margin: 10px;
+            }
+            h1 {
+                font-size: 1.8rem;
+            }
+            body {
+                font-size: 15px;
+            }
+        }
     </style>
 </head>
 <body>
 
-    <h1>My Academic Notes</h1>
-    <div id="file-explorer">
-        <p id="loader">🔍 Loading files from repository...</p>
+    <div class="container">
+        <header>
+            <h1>Academic Notes (NITS)</h1>
+        </header>
+        
+        <div id="file-explorer">
+            <p id="loader">🔍 Loading file list...</p>
+        </div>
     </div>
 
     <script>
-        // --- CONFIGURE THIS SECTION ---
-        const USER_NAME = "ashikahmed05"; // Replace with your GitHub username
-        const REPO_NAME = "my-notes-explorer";    // Replace with your repository name
-        // --- END OF CONFIGURATION ---
+        // No configuration needed. This script fetches the 'list.json' file
+        // created by the GitHub Action.
 
-        // Function to render the explorer UI from a nested object
         function createExplorerUI(container, structure) {
             const ul = document.createElement('ul');
             ul.className = 'explorer';
-            // Sort keys to have folders first, then files alphabetically
+            
             const sortedKeys = Object.keys(structure).sort((a, b) => {
                 const aIsFolder = typeof structure[a] === 'object';
                 const bIsFolder = typeof structure[b] === 'object';
@@ -48,16 +142,18 @@
                 const value = structure[key];
                 const li = document.createElement('li');
 
-                if (typeof value === 'object') { // It's a folder
-                    li.textContent = key;
-                    li.className = 'folder';
-                    li.addEventListener('click', (e) => {
+                if (typeof value === 'object') {
+                    const folderSpan = document.createElement('span');
+                    folderSpan.textContent = key;
+                    folderSpan.className = 'folder';
+                    folderSpan.addEventListener('click', (e) => {
                         e.stopPropagation();
-                        li.classList.toggle('open');
+                        folderSpan.parentElement.classList.toggle('open');
                     });
+                    li.appendChild(folderSpan);
                     const subExplorer = createExplorerUI(li, value);
                     li.appendChild(subExplorer);
-                } else { // It's a file
+                } else {
                     const a = document.createElement('a');
                     a.textContent = key;
                     a.href = value;
@@ -70,51 +166,53 @@
             return ul;
         }
 
-        // Main function to fetch and build the file tree
         async function buildFileExplorer() {
-            const apiUrl = `https://api.github.com/repos/${USER_NAME}/${REPO_NAME}/git/trees/main?recursive=true`;
             const explorerContainer = document.getElementById('file-explorer');
-            
+            const listUrl = 'list.json'; 
+
             try {
-                const response = await fetch(apiUrl);
+                // Fetch the local list.json, adding a timestamp to prevent caching issues.
+                const response = await fetch(`${listUrl}?v=${new Date().getTime()}`);
                 if (!response.ok) {
-                    throw new Error(`Failed to fetch repository data. Status: ${response.status}`);
+                    throw new Error(`Status: ${response.status}`);
                 }
-                const data = await response.json();
+                const filePathsText = await response.text();
+                
+                if (!filePathsText.trim()) {
+                    throw new Error("The file list is empty. Push some files to the 'files' directory.");
+                }
 
                 const fileStructure = {};
-                const rootPath = 'files/';
-
-                for (const item of data.tree) {
-                    if (item.path.startsWith(rootPath) && item.type === 'blob') { // 'blob' means file
-                        const pathParts = item.path.substring(rootPath.length).split('/');
-                        let currentLevel = fileStructure;
-
-                        for (let i = 0; i < pathParts.length; i++) {
-                            const part = pathParts[i];
-                            if (i === pathParts.length - 1) { // It's a file
-                                currentLevel[part] = `https://${USER_NAME}.github.io/${REPO_NAME}/${item.path}`;
-                            } else { // It's a directory
-                                if (!currentLevel[part]) {
-                                    currentLevel[part] = {};
-                                }
-                                currentLevel = currentLevel[part];
-                            }
-                        }
-                    }
-                }
+                // IMPORTANT: These details are for your specific repository.
+                const userName = 'ashikahmed05';
+                const repoName = 'my-notes-explorer';
+                const baseUrl = `https://github.com/${userName}/${repoName}/blob/main/files/`;
                 
-                // Clear the loading message and render the explorer
+                filePathsText.trim().split('\n').forEach(path => {
+                    const pathParts = path.split('/');
+                    let currentLevel = fileStructure;
+                    pathParts.forEach((part, index) => {
+                        if (index === pathParts.length - 1) {
+                            // Create a direct-download link using ?raw=true
+                            currentLevel[part] = `${baseUrl}${path}?raw=true`;
+                        } else {
+                            if (!currentLevel[part]) {
+                                currentLevel[part] = {};
+                            }
+                            currentLevel = currentLevel[part];
+                        }
+                    });
+                });
+                
                 explorerContainer.innerHTML = '';
                 explorerContainer.appendChild(createExplorerUI(explorerContainer, fileStructure));
 
             } catch (error) {
-                explorerContainer.innerHTML = `<p style="color:red;">Error: Could not load file list. ${error.message}</p>`;
+                explorerContainer.innerHTML = `<p style="color:red;"><strong>Error:</strong> Could not load file list. Please ensure you have pushed your files and the GitHub Action has completed successfully. (${error.message})</p>`;
                 console.error(error);
             }
         }
 
-        // Run the function
         buildFileExplorer();
     </script>
 </body>
